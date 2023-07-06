@@ -1,0 +1,44 @@
+[
+  {
+    $match:
+      /**
+       * query: The query in MQL.
+       */
+      {
+        Genres: {
+          $all: ["Humor", "Essay"],
+        },
+      },
+  },
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "Authors",
+        localField: "AuthorId",
+        foreignField: "_id",
+        as: "author",
+      },
+  },
+  {
+    /**
+     * specifications: The fields to
+     *   include or exclude.
+     */
+    $addFields: {
+      Name: {
+        $concatArrays: [
+          "$author.FirstName",
+          "$author.LastName",
+        ],
+      },
+    },
+  },
+]

@@ -1,0 +1,23 @@
+[
+  {
+    $match:
+      /**
+       * query: The query in MQL.
+       */
+      {
+        YearOfPublication: {
+          $gte: ISODate("2022-01-01"),
+        },
+      },
+  },
+  {
+    $addFields:
+      /**
+       * newField: The new field name.
+       * expression: The new field expression.
+       */
+      {
+        isNew: true,
+      },
+  },
+]
